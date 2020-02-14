@@ -11,6 +11,7 @@ class SQLArtDB(ArtDB):
         db.create_tables([Art, Artist])
 
     def insert(self, art_s):
+        pass
 
     def get_all(self, art_s):
-        
+        pass
