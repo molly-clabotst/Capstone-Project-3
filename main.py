@@ -1,3 +1,7 @@
-import artStore
-import menu
-import ui
+from view import *
+import view_model
+import database
+
+def main():
+
+    art_db = 
