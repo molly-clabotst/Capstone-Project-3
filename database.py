@@ -9,3 +9,8 @@ class SQLArtDB(ArtDB):
     def __init__(self):
         db.connect()
         db.create_tables([Art, Artist])
+
+    def insert(self, art_s):
+
+    def get_all(self, art_s):
+        

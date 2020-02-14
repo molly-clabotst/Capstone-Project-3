@@ -1,7 +1,8 @@
 from view import *
 import view_model
-import database
+from database import SQLArtDB
 
 def main():
 
-    art_db = 
+    art_db = SQLArtDB()
+    
