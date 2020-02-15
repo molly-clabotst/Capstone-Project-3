@@ -11,3 +11,6 @@ def main():
     art_view = View(art_view_model)
 
     
+
+    if __name__ == '__main__':
+        main()

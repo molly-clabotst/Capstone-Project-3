@@ -1,7 +1,7 @@
 class Art():
-    def __init__(self, name, artist, price, availability=True):
+    def __init__(self, name, price, availability=True):
         self.name = name
-        self.artist = artist
+        artist = ForeignKey(model=Artist,field=name)
         self.price = price
         self.availability = availability
 
