@@ -1,17 +1,14 @@
-import peewee
-from database_abc import ArtDB
-from model import Art, Artist
+from model import Artist
 
-class SQLArtDB(ArtDB):
+class SQLArtDB():
 
-    db = SqliteDatabase('art.db')
-
-    def __init__(self):
-        db.connect()
-        db.create_tables([Art, Artist])
-
-    def insert(self, art_s):
-        pass
-
-    def get_all(self, art_s):
-        pass
+    def insert(self, name, email):
+        artist = Artist(name=name, email=email)
+        artist.save()
+        
+    def search_artist(self, name):
+        # ORM 
+        data = Artist.select().where(Artist.name==name).limit(1)
+        
+        return data
+    
