@@ -1,10 +1,11 @@
-class ViewModel:
+class ViewModel():
 
     def __init__(self, db):
         self.db = db
 
-    def insert(self, art_s):
-        self.db.insert(art_s)
+    def insert(self, name, email):
+        self.db.insert(name,email)
 
-    def get_all(self):
-        return self.db.get_all()
+    def search_artist(self,name):
+        data = self.db.search_artist(name)
+        return data
