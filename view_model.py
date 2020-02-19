@@ -9,3 +9,14 @@ class ViewModel():
     def search_artist(self,name):
         data = self.db.search_artist(name)
         return data
+
+    def insert_art(self, name, artist, price, available):
+        self.db.insert_art(name, artist, price, available)
+
+    def search_art_one(self, artist):
+        data = self.db.search_art_one(artist)
+        return data
+
+    def search_art_all(self):
+        data = self.db.search_art_all()
+        return data
