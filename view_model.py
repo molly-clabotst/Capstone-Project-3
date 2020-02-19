@@ -21,8 +21,8 @@ class ViewModel():
         data = self.db.search_art_all()
         return data
 
-    def update(self, name):
-        rows_updated = self.db.update(name)
+    def update(self, name, available):
+        rows_updated = self.db.update(name, available)
         return rows_updated
 
     def search_art_name(self, name):
