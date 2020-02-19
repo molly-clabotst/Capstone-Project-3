@@ -18,8 +18,8 @@ class View():
                 srch_art_one_artist(self)
             elif choice == '4':
                 srch_art_all_artist(self)
-            # elif choice == 5:
-            #     update_available(self)
+            elif choice == '5':
+                update_available(self)
             # elif choice == 6:
             #     delete_art(self)
             elif choice.upper() == 'Q':
@@ -36,12 +36,13 @@ def add_new_artist(self, name=''):
     if name=='':
         name = input('What is the name of the artist? ')
         name = validate_artist_name(name)
-        isFound = search_artist(self, name)
+        isFound = search_artist(self, name, first=True)
 
     if isFound == None:
         email = input(f"What is {name}'s email? ")
         self.view_model.insert(name, email)
-        display(self, name)
+        data = self.view_model.search_artist(name)
+        display(data, first=True)
     else:
         print(f"{name} is already in the system.\n")
 
@@ -49,7 +50,7 @@ def add_new_artist(self, name=''):
 def add_new_art(self):
     artist = input('What is the name of the artist? ')
     name = validate_artist_name(artist)
-    isFound = search_artist(self, artist)
+    isFound = search_artist(self, artist, first=True)
 
     # Verifying that the artist exists in the database before adding art to their name
     if isFound==None:
@@ -61,21 +62,33 @@ def add_new_art(self):
     available = input('Is this piece sold? ')
 
     self.view_model.insert_art(name, artist, price, available)
+    data = self.view_model.search_art_name(name)
+    display(data)
 
+# SEARCH ART FROM ONE ARTIST
 def srch_art_one_artist(self):
     name = input('What is the name of the artist? ')
     name = validate_artist_name(name)
     # data = search_artist(self, name)
     data = self.view_model.search_art_one(name)
-    print(data)
+    display(data)
 
+# SEARCH ALL ART
 def srch_art_all_artist(self):
     data = self.view_model.search_art_all()
-    print(data)
+    display(data)
+
+# UPDATE
+def update_available(self):
+    name = input('What is the name of the artwork that is now sold? ')
+    self.view_model.update(name)
+    data = self.view_model.search_art_name(name)
+    display(data)
 
 # SEARCH ARTIST
-def search_artist(self, name):
+def search_artist(self, name, first=False):
     data = self.view_model.search_artist(name)
+    display(data, first)
     
     # Displaying search results
     if data.exists() == False:
@@ -84,15 +97,17 @@ def search_artist(self, name):
         return dPoint
 
 # DISPLAY DATA
-def display(self, name):
-    isFound = search_artist(self, name)
+def display(data, first = False):
 
-    # Alerting user as to whether the artist exists
-    if isFound==None:
-        print(f'\nSorry there was no entry for {name}.\n')
-    else:
-        print('\n'+str(isFound)+'\n')
-
+    # Displaying search results
+    if data.exists() == False and first==False:
+        print(f'\nSorry there was no entry\n')
+    for dPoint in data:
+        if first == False:
+            print(dPoint)
+        else:
+            print(f'\n{dPoint.name} is contactable at {dPoint.email}\n')
+# VALIDATE
 def validate_artist_name(name):
     while True:
         chars = name.replace(" ", "")

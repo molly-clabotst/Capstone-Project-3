@@ -20,3 +20,11 @@ class ViewModel():
     def search_art_all(self):
         data = self.db.search_art_all()
         return data
+
+    def update(self, name):
+        rows_updated = self.db.update(name)
+        return rows_updated
+
+    def search_art_name(self, name):
+        data = self.db.search_art_name(name)
+        return data
