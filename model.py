@@ -20,6 +20,12 @@ class Art(Model):
     name = CharField()
     artist = ForeignKeyField(model=Artist, field=name)
     price = CharField()
-    availabile = CharField()
+    available = CharField()
+
+    class Meta:
+        database = db
+
+    def __str__(self):
+        return f"This pieces name is {self.name} it was created by {self.artist}. The pieces price is {self.price} and it is {self.availabile}."
 
 db.create_tables([Artist, Art])
