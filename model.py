@@ -18,12 +18,12 @@ class Artist(BaseModel):
         return f"The artist {self.name} is contactable at {self.email}."
 
 class Art(BaseModel):
-    name = CharField()
-    artist = ForeignKeyField(model=Artist, field=name)
+    art_name = CharField()
+    artist = ForeignKeyField(model=Artist, field=Artist.name)
     price = CharField()
     available = CharField()
 
     def __str__(self):
-        return f"This pieces name is it was created by {self.artist}. The pieces price is {self.price} and it is {self.availabile}."
+        return f"This pieces name is {self.art_name} is it was created by {self.artist}. The pieces price is {self.price} and it is {self.available}."
 
 db.create_tables([Artist, Art])
