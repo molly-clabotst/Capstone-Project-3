@@ -80,10 +80,25 @@ def srch_art_all_artist(self):
 
 # UPDATE
 def update_available(self):
-    name = input('What is the name of the artwork that is now sold? ')
-    self.view_model.update(name)
+    name = input('What is the name of the artwork whos availability has changed? ')
     data = self.view_model.search_art_name(name)
+
+    if data.exists() == False:
+        print('Sorry that artwork does not exist')
+        return
+    for dat in data:
+        available = dat.available
+
+    rows_updated = self.view_model.update(name, available)
+
+    if rows_updated == 0:
+        print('There was an error.')
+        return
+
     display(data)
+    data = self.view_model.search_art_name(name) 
+    display(data)   
+
 
 # SEARCH ARTIST
 def search_artist(self, name, first=False):

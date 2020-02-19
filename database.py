@@ -16,7 +16,7 @@ class SQLArtDB():
             available = 'sold'
         else:
             available = 'available'
-        art = Art(name=name, artist=artist, price=price, available=available)
+        art = Art(art_name=name, artist=artist, price=price, available=available)
         art.save()
 
     def search_art_one(self, artist):
@@ -29,11 +29,17 @@ class SQLArtDB():
         data = Art.select()
         return data
 
-    def update(self, name):
-        rows_updated = Art.update(available='sold').where(Art.name==name)
+    def update(self, name, available):
+        if available == 'sold':
+            rows_updated = Art.update(available='available').where(Art.art_name==name).execute()
+        elif available == 'available':
+            rows_updated = Art.update(available='sold').where(Art.art_name==name).execute()
+        else:
+            rows_updated = 0
+            
         return rows_updated
 
     def search_art_name(self, name):
         # ORM
-        data = Art.select().where(Art.name==name)
+        data = Art.select().where(Art.art_name==name)
         return data

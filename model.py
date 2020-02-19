@@ -6,26 +6,24 @@ db = SqliteDatabase('art.sqlite')
 
 db.connect()
 
-class Artist(Model):
+class BaseModel(Model):
+    class Meta:
+        database = db
+
+class Artist(BaseModel):
     name = CharField()
     email = CharField()
 
-    class Meta:
-        database = db
-
     def __str__(self):
-        return f"The artist {self.name} is contactable at {self.email}."
+        return f"{self.name}"
 
-class Art(Model):
-    name = CharField()
-    artist = ForeignKeyField(model=Artist, field=name)
+class Art(BaseModel):
+    art_name = CharField()
+    artist = ForeignKeyField(model=Artist, field=Artist.name)
     price = CharField()
     available = CharField()
 
-    class Meta:
-        database = db
-
     def __str__(self):
-        return f"This pieces name is it was created by {self.artist}. The pieces price is {self.price} and it is {self.availabile}."
+        return f"\nThis pieces name is {self.art_name} is it was created by {self.artist}. The pieces price is {self.price} and it is {self.available}.\n"
 
 db.create_tables([Artist, Art])
