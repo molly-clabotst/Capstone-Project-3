@@ -50,7 +50,7 @@ def add_new_artist(self, name=''):
 def add_new_art(self):
     artist = input('What is the name of the artist? ')
     name = validate_artist_name(artist)
-    isFound = search_artist(self, artist)
+    isFound = search_artist(self, artist, first=True)
 
     # Verifying that the artist exists in the database before adding art to their name
     if isFound==None:
@@ -104,7 +104,7 @@ def display(data, first = False):
         print(f'\nSorry there was no entry\n')
     for dPoint in data:
         if first == False:
-            print(f'\nThe piece {dPoint.name} was made by {dPoint.artist}. It costs ${dPoint.price} and it is {dPoint.available}.3\n')
+            print(dPoint)
         else:
             print(f'\n{dPoint.name} is contactable at {dPoint.email}\n')
 # VALIDATE

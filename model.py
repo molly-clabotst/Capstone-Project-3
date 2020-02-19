@@ -25,7 +25,7 @@ class Art(Model):
     class Meta:
         database = db
 
-    # def __str__(self):
-    #     return f"This pieces name is {self.name} it was created by {self.artist}. The pieces price is {self.price} and it is {self.availabile}."
+    def __str__(self):
+        return f"This pieces name is it was created by {self.artist}. The pieces price is {self.price} and it is {self.availabile}."
 
 db.create_tables([Artist, Art])
