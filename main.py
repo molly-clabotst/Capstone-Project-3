@@ -1,6 +1,6 @@
-from view import View
-from view_model import ViewModel
-from database import SQLArtDB
+from front.view import View
+from front.view_model import ViewModel
+from back.database import SQLArtDB
 
 def main():
     db_art = SQLArtDB()
