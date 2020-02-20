@@ -1,6 +1,6 @@
 from back.model import Artist
 from front.view_util import display
-from validate import validate_Artist_name, validate_Art, validate_Email
+from validate import validate_name, validate_Art, validate_Email
 
 import re
 
@@ -24,8 +24,8 @@ class View():
                 srch_art_all_artist(self)
             elif choice == '5':
                 update_available(self)
-            # elif choice == 6:
-            #     delete_art(self)
+            elif choice == '6':
+                delete_art(self)
             elif choice.upper() == 'Q':
                 print('\nThanks for using the Art Database\n')
                 break
@@ -39,7 +39,7 @@ def add_new_artist(self, name=''):
     isFound = ''
     if name=='':
         name = input('What is the name of the artist? ')
-        name = validate_Artist_name(name)
+        name = validate_name(name)
         isFound = search_artist(self, name, first=True)
 
     if isFound == None:
@@ -54,15 +54,19 @@ def add_new_artist(self, name=''):
 # ADD NEW ART
 def add_new_art(self):
     artist = input('What is the name of the artist? ')
-    name = validate_Artist_name(artist)
+    name = validate_name(artist)
     isFound = search_artist(self, artist, first=True)
 
     # Verifying that the artist exists in the database before adding art to their name
     if isFound==None:
         print(f"{artist} isn't in the system yet please add them first.")
-        add_new_artist(self, artist)
+        add_new_artist(self)
 
     name = input('What is the name of the piece? ')
+    data = self.view_model.search_art_name(name)
+    if data.exists()!=False:
+        print(f"There is already a piece with the name of {name} in the system")
+        return
     price = input('What is the price of the piece? ')
     available = input('Is this piece sold? ')
 
@@ -75,8 +79,13 @@ def add_new_art(self):
 # SEARCH ART FROM ONE ARTIST
 def srch_art_one_artist(self):
     name = input('What is the name of the artist? ')
-    name = validate_Artist_name(name)
-    # data = search_artist(self, name)
+    name = validate_name(name)
+    isFound = search_artist(self, name)
+
+    # Verifying that the artist exists in the database
+    if isFound.exists()==None:
+        print(f"{name} isn't in the system yet, maybe try again.")
+        return
     data = self.view_model.search_art_one(name)
     display(data)
 
@@ -99,11 +108,36 @@ def update_available(self):
     rows_updated = self.view_model.update(name, available)
 
     if rows_updated == 0:
-        print('There was an error.')
+        print('There was an error. Your request was not updated')
         return
 
     data = self.view_model.search_art_name(name) 
     display(data)   
+
+# DELETE
+def delete_art(self):
+    name = input('What is the name of the artwork you would like to delete? ')
+    name = validate_name(name)
+    isFound =  self.view_model.search_art_name(name)
+    # Verifying that the art exists in the database
+    if isFound.exists()==None:
+        print(f"{name} isn't in the system yet, maybe try again.")
+        return
+    display(isFound)
+    confirm = input('Are you sure you want to delete this art? (Yes er no?) ')
+    while True:
+        if confirm.upper()=='YES':
+            rows_updated = self.view_model.delete(name)
+            if rows_updated == 0:
+                print('There was an error. Your request was not deleted\n')
+            else:
+                print('Your entry was deleted.\n')
+            break
+        elif confirm.upper()=='NO':
+            print('Fair enough')
+            break
+        else:
+            confirm=input("That's not an actual choice. Try again.")
 
 # SEARCH ARTIST
 def search_artist(self, name, first=False):

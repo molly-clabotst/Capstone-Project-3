@@ -25,6 +25,10 @@ class ViewModel():
         rows_updated = self.db.update(name, available)
         return rows_updated
 
+    def delete(self, name):
+        rows_updated = self.db.delete(name)
+        return rows_updated
+
     def search_art_name(self, name):
         data = self.db.search_art_name(name)
         return data

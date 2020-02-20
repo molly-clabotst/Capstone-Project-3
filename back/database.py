@@ -39,6 +39,10 @@ class SQLArtDB():
             
         return rows_updated
 
+    def delete(self, name):
+        rows_updated = Art.delete().where(name==name).execute()
+        return rows_updated
+
     def search_art_name(self, name):
         # ORM
         data = Art.select().where(Art.art_name==name)
